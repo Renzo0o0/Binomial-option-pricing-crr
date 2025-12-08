@@ -2,8 +2,6 @@
 Implementation of the Cox–Ross–Rubinstein (CRR) binomial model for option pricing, including risk-neutral valuation, replicating portfolio (Δ and B), and discrete Greeks (Δ, Γ, Θ). 
 Binomial Option Pricing (CRR Model)
 
-This project implements the Cox–Ross–Rubinstein (CRR) binomial model for pricing European options.
-It includes risk-neutral valuation, the replicating portfolio, and discrete Greeks, following the theoretical foundations of:
 
 Hull – Options, Futures and Other Derivatives
 
@@ -11,144 +9,35 @@ Paul Wilmott Introduces Quantitative Finance
 
 Hilpisch – Python for Finance
 
- Features
-1. CRR Binomial Tree
+Features
 
-Up and down factors derived from volatility:
+CRR Binomial Tree
 
-𝑢
-=
-𝑒
-𝜎
-Δ
-𝑡
-,
- 
-𝑑
-=
-1
-/
-𝑢
-u=e
-σ
-Δt
-	​
-
-, d=1/u
+Up and down factors based on volatility:
+u = exp(sigma * sqrt(dt))
+d = 1 / u
 
 Risk-neutral probability:
+p = (exp(r * dt) - d) / (u - d)
 
-𝑝
-=
-𝑒
-𝑟
-Δ
-𝑡
-−
-𝑑
-𝑢
-−
-𝑑
-p=
-u−d
-e
-rΔt
-−d
-	​
+Option Pricing
 
-
-2. Option Pricing
-
-European call payoff
+European call payoff at maturity
 
 Backward induction
 
-Risk-neutral expectation + discounting
+Risk-neutral expected value discounted at the risk-free rate
 
-3. Replicating Portfolio
-
+Replicating Portfolio
 At each node:
 
-Delta:
+Delta = (C_up - C_down) / (S_up - S_down)
 
-Δ
-=
-𝐶
-𝑢
-𝑝
-−
-𝐶
-𝑑
-𝑜
-𝑤
-𝑛
-𝑆
-𝑢
-𝑝
-−
-𝑆
-𝑑
-𝑜
-𝑤
-𝑛
-Δ=
-S
-up
-	​
+Bond = exp(-r * dt) * (C_down - Delta * S_down)
 
-−S
-down
-	​
+This shows explicitly that an option can be replicated by holding Delta units of the underlying and a position in a risk-free bond.
 
-C
-up
-	​
-
-−C
-down
-	​
-
-	​
-
-
-Bond position:
-
-𝐵
-=
-𝑒
-−
-𝑟
-Δ
-𝑡
-(
-𝐶
-𝑑
-𝑜
-𝑤
-𝑛
-−
-Δ
-𝑆
-𝑑
-𝑜
-𝑤
-𝑛
-)
-B=e
-−rΔt
-(C
-down
-	​
-
-−ΔS
-down
-	​
-
-)
-
-Shows explicitly that an option is equivalent to a dynamic position in the underlying asset + bond.
-
-4. Greeks from the Tree
+Greeks (from the binomial tree)
 
 Delta
 
@@ -156,16 +45,34 @@ Gamma
 
 Theta
 
-5. Visualization
+Visualization
 
-Pretty plot of the underlying price tree
+Plot of the underlying's CRR price tree
 
- Purpose
+Purpose
 
 Build intuition behind derivatives pricing
 
-Bridge toward the Black–Scholes model
+Understand risk-neutral valuation
 
-Understand replication and risk-neutral pricing
+Show the mechanics of replication
 
-Perfect for interviews in S&T, Derivatives, or Quant roles
+Prepare for the Black–Scholes model
+
+Useful for S&T, derivatives, quant, and risk interviews
+
+How to Use
+
+Run the single-cell Python file or notebook
+
+Adjust parameters such as volatility, time steps, strike or interest rate
+
+Observe how the option value, Greeks and the replicating portfolio change
+
+Dependencies
+
+numpy
+
+pandas
+
+matplotlib
